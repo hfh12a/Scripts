@@ -48,8 +48,9 @@ for fol in fols:
     injid_ref = injid_ref[loc_ref]
 
     #Cutting the data based on IFAR
-    cut_ref = numpy.where(ifar_ref_calc > 1.0)[0]
-    cut_comp = numpy.where(numpy.in1d(injid_comp, injid_ref[cut_ref]))
+    #cut_ref = numpy.where(ifar_ref_calc > 1.0)[0]
+    cut_ref = numpy.logical_and(ifar_ref_calc > 1.0, ifar_ref_calc < 1000)
+    cut_comp = numpy.where(numpy.in1d(injid_comp, injid_ref[cut_ref]))[0]
     loc_comp = loc_comp[cut_comp]
     loc_ref = loc_ref[cut_ref]
     ifar_ref_calc = ifar_ref_calc[cut_ref]
