@@ -66,23 +66,6 @@ for fol in fols:
     spin1z_ref = ref['injections/spin1z'][:][injid_ref]
     spin2z_ref = ref['injections/spin2z'][:][injid_ref]
 
-    df = ifar_ref
-    s = df.argsort()[::-1]
-    stat_ref = stat_ref[s]
-    chsq_H1_ref = chsq_H1_ref[s]
-    chsq_L1_ref = chsq_L1_ref[s]
-    H1_snr_ref = H1_snr_ref[s]
-    L1_snr_ref = L1_snr_ref[s]
-    ifar_ref = ifar_ref[s]
-    m1_ref = m1_ref[s]
-    m2_ref = m2_ref[s]
-    spin1z_ref = spin1z_ref[s]
-    spin2z_ref = spin2z_ref[s]
-    exc_ifar_ref = exc_ifar_ref[s]
-    exc_fap_ref = exc_fap_ref[s]
-    fap_ref = fap_ref[s]
-    missed_comp = missed_comp[s]
-
     if opt.output_kind == 'table':
         for h in range(0, len(missed_comp)):
             if missed_comp[h]:
