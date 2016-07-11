@@ -48,7 +48,7 @@ for fol in fols:
     injid_ref = injid_ref[loc_ref]
 
     #Cutting the data based on IFAR
-   # cut_ref = numpy.where(ifar_ref_calc > 1.0)[0]
+    #cut_ref = numpy.where(ifar_ref_calc > 1.0)[0]
     cut_ref = numpy.logical_and(ifar_ref_calc > 1.0, ifar_ref_calc < 1000)
     cut_comp = numpy.where(numpy.in1d(injid_comp, injid_ref[cut_ref]))[0]
     loc_comp = loc_comp[cut_comp]
@@ -107,114 +107,15 @@ snr_L1_ratio = L1_snr_comp / L1_snr_ref
 ifar_ratio = ifar_comp / ifar_ref
 
 ############### PLOTTING TIME ###############
-params = [ifar_ratio, combined_snr_ratio]
-param_name = ['IFAR Ratio', 'Network SNR Ratio']
+params = [ifar_ratio, chirp_comp]
+param_name = ['IFAR Ratio', 'Chirp Mass']
 
 for param, name in zip(params, param_name):
 
-    #hex, linear plot vs min snr
     fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.hexbin(min_snr, param)
-    ax.set_xlabel('Minimum SNR')
-    ax.set_ylabel(name)
-    ax.set_title(name + ' vs. Minimum SNR')
-    fig.colorbar(ax.hexbin(min_snr, param), ax=ax)
-    fig.savefig(str(opt.output_directory) + '/' + name + ' vs. Minimum SNR, lin, hex.png')
+    ax.hist(param, 50)
+    ax.set_xlabel(name)
+    ax.set_title(name + ' (1 < IFAR < 1000)')
+    fig.savefig(str(opt.output_directory) + '/' + name + ' (1 < IFAR < 1000).png')
     plt.close()
-    print  name + ' vs. Minimum SNR, lin, hex: '
-    print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
 
-    #hex, log plot vs min snr
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.hexbin(min_snr, param, yscale = 'log')
-    ax.set_xlabel('Minimum SNR')
-    ax.set_ylabel(name)
-    ax.set_title(name + ' vs. Minimum SNR')
-    fig.colorbar(ax.hexbin(min_snr, param, yscale = 'log'), ax=ax)
-    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Minimum SNR, log, hex.png')
-    plt.close()
-    print  name + ' vs. Minimum SNR, log, hex: '
-    print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
-    
-    #hex, linear plot vs chirp mass
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.hexbin(chirp_comp, param)
-    ax.set_xlabel('Chirp Mass')
-    ax.set_ylabel(name)
-    ax.set_xlim([numpy.min(chirp_comp), numpy.max(chirp_comp)])
-    ax.set_title(name + ' vs. Chirp Mass')
-    fig.colorbar(ax.hexbin(time_comp, param), ax=ax)
-    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Chirp Mass, lin, hex.png')
-    plt.close()
-    print  name + ' vs. Chirp Mass, lin, hex: '
-    print '     Chirp: %s' % numpy.min(chirp_comp), numpy.max(chirp_comp)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
-
-    #hex, log plots vs chirp mass
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.hexbin(chirp_comp, param, yscale = 'log')
-    ax.set_xlabel('Chirp Mass')
-    ax.set_ylabel(name)
-    ax.set_title(name + ' vs. Chirp Mass')
-    ax.set_xlim([numpy.min(chirp_comp), numpy.max(chirp_comp)])
-    fig.colorbar(ax.hexbin(time_comp, param, yscale = 'log'), ax=ax)
-    fig.savefig(str(opt.output_directory) + '/' + name + ' vs. Chirp Mass, log, hex.png')
-    plt.close()
-    print  name + ' vs. Chirp Mass, log, hex: '
-    print '     Chirp: %s' % numpy.min(chirp_comp), numpy.max(chirp_comp)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
-
-    #scatter, linear plot vs min snr
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.scatter(min_snr, param, c=ifar_ref, norm=matplotlib.colors.LogNorm())
-    ax.set_xlabel('Minimum SNR')
-    ax.set_ylabel(name)
-    ax.set_title(name + ' vs. Minimum SNR')
-    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Minimum SNR, lin, scatter.png')
-    plt.close()
-    print  name + ' vs. Minimum SNR, lin, scatter: '
-    print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
-
-
-    #scatter, log plot vs min snr
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.scatter(min_snr, param, c=ifar_ref, norm=matplotlib.colors.LogNorm())
-    ax.set_xlabel('Minimum SNR')
-    ax.set_yscale('log')
-    ax.set_ylabel(name)
-    ax.set_title(name + ' vs. Minimum SNR')
-    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Minimum SNR, log, scatter.png')
-    plt.close()
-    print  name + ' vs. Minimum SNR, log, scatter: '
-    print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
-
-    #scatter, linear plot vs chirp mass
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.scatter(chirp_comp, param, c=ifar_ref, norm=matplotlib.colors.LogNorm())
-    ax.set_xlabel('Chirp Mass')
-    ax.set_ylabel(name)
-    ax.set_xlim([numpy.min(chirp_comp), numpy.max(chirp_comp)])
-    ax.set_title(name + ' vs. Chirp Mass')
-    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Chirp Mass, lin, scatter.png')
-    plt.close()
-    print  name + ' vs. Chirp Mass, lin, scatter: '
-    print '     Chirp: %s' % numpy.min(chirp_comp), numpy.max(chirp_comp)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
-    
-    #scatter, log plots vs chirp mass
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.scatter(chirp_comp, param, c=ifar_ref, norm=matplotlib.colors.LogNorm())
-    ax.set_xlabel('Chirp Mass')
-    ax.set_ylabel(name)
-    ax.set_yscale('log')
-    ax.set_title(name + ' vs. Chirp Mass')
-    ax.set_xlim([numpy.min(chirp_comp), numpy.max(chirp_comp)])
-    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Chirp Mass, log, scatter.png')
-    plt.close()
-    print name + ' vs. Chirp Mass, log, scatter: '
-    print '     Chirp: %s' % numpy.min(chirp_comp), numpy.max(chirp_comp)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
