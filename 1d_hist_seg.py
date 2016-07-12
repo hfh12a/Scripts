@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser(usage='')
 parser.add_argument("--reference-directory", type=str, default=None)
 parser.add_argument("--comparison-directory", type=str, default=None)
 parser.add_argument("--output-directory", type = str, default = '.')
+parser.add_argument("--cut-size", type = str, default=None)
 opt = parser.parse_args()
 
 matplotlib.rcParams.update({'font.size': 18})
@@ -48,8 +49,10 @@ for fol in fols:
 
 
     #Cutting the data based on IFAR
-    #cut_ref = numpy.where(ifar_ref > 1.0)[0]
-    cut_ref = numpy.logical_and(ifar_ref > 1.0, ifar_ref < 1000)
+    if opt.cut_size == 'small':
+        cut_ref = numpy.where(ifar_ref > 1.0)[0]
+    else:
+        cut_ref = numpy.logical_and(ifar_ref > 1.0, ifar_ref < 1000)
     cut_comp = numpy.where(numpy.in1d(injid_comp, injid_ref[cut_ref]))[0]
     loc_comp = loc_comp[cut_comp]
     loc_ref = loc_ref[cut_ref]
@@ -128,22 +131,21 @@ for param, name in zip(params, param_name):
     plt.close()
 
 fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-ax.hist(combined_snr_ratio)
-ax.set_xlabel('Network SNR Ratio')
+ax.hist(combined_snr_ratio, bins = 20)
+ax.set_xlabel('Network SNR Ratio (512s / 256s)')
 fig.savefig(str(opt.output_directory)  + '/' + 'Network SNR Ratio, hist.png')
 plt.close()
-print combined_snr_ratio[numpy.where(combined_snr_ratio < 0.95)[0]]
 
 fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-ax.hist(stat_ratio)
-ax.set_xlabel('New SNR Ratio')
+ax.hist(stat_ratio, bins = 20)
+ax.set_xlabel('New SNR Ratio (512s / 256s)')
 fig.savefig(str(opt.output_directory)  + '/' + 'New SNR Ratio, hist.png')
 plt.close()
-print stat_ratio[numpy.where(stat_ratio < 0.95)[0]]
+print stat_ratio[numpy.where(stat_ratio > 1.05)[0]]
 
 fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-ax.hist(ifar_ratio)
-ax.set_xlabel('IFAR Ratio')
+ax.hist(ifar_ratio, bins = 20)
+ax.set_xlabel('IFAR Ratio (512s / 256s)')
 fig.savefig(str(opt.output_directory)  + '/' + 'IFAR Ratio, hist.png')
 plt.close()
 
