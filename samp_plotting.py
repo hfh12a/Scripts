@@ -137,25 +137,25 @@ for param, name in zip(params, param_name):
    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
 
 
-    xmin = numpy.min(min_snr) - numpy.min(min_snr)*0.1
-    xmax = numpy.max(min_snr) + numpy.max(min_snr)*0.1
-    ymin = numpy.min(param) - numpy.min(param)*0.1
-    ymax = numpy.max(param) + numpy.max(param)*0.1
+   xmin = numpy.min(min_snr) - numpy.min(min_snr)*0.1
+   xmax = numpy.max(min_snr) + numpy.max(min_snr)*0.1
+   ymin = numpy.min(param) - numpy.min(param)*0.1
+   ymax = numpy.max(param) + numpy.max(param)*0.1
 
-    #hex, log plot vs min snr
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.hexbin(min_snr, param,  bins = 'log', yscale = 'log', mincnt=1)
+   #hex, log plot vs min snr
+   fig, ax = pylab.subplots(1, 1, figsize=[15,10])
+   ax.hexbin(min_snr, param,  bins = 'log', yscale = 'log', mincnt=1)
 #    plt.axis([xmin, 10, ymin, ymax])
-    ax.set_xlabel('Minimum SNR')
-    ax.set_ylabel(name)
-    ax.set_title(name + ' (2048Hz / 4096Hz) vs. Minimum SNR')
-    fig.colorbar(ax.hexbin(min_snr, param,  bins = 'log', yscale = 'log', mincnt=1), ax=ax, label = 'Log10(# of counts)')
-    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Minimum SNR, log, hex.png')
-    plt.close()
-    print  name + ' vs. Minimum SNR, log, hex: '
-    print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
-    
+   ax.set_xlabel('Minimum SNR')
+   ax.set_ylabel(name)
+   ax.set_title(name + ' (2048Hz / 4096Hz) vs. Minimum SNR')
+   fig.colorbar(ax.hexbin(min_snr, param,  bins = 'log', yscale = 'log', mincnt=1), ax=ax, label = 'Log10(# of counts)')
+   fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Minimum SNR, log, hex.png')
+   plt.close()
+   print  name + ' vs. Minimum SNR, log, hex: '
+   print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
+   print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)    
+
     #hex, linear plot vs chirp mass
    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
    ax.hexbin(chirp_comp, param)
@@ -198,19 +198,19 @@ for param, name in zip(params, param_name):
 
 
     #scatter, log plot vs min snr
-    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
-    ax.scatter(min_snr, param)
-    ax.set_xlabel('Minimum SNR')
-    ax.set_yscale('log')
-    ax.set_ylabel(name)
-    ax.set_ylim([ymin, ymax])
-    ax.set_xlim([xmin, 10])
-    ax.set_title(name + ' (2048Hz / 4096Hz) vs. Minimum SNR')
+   fig, ax = pylab.subplots(1, 1, figsize=[15,10])
+   ax.scatter(min_snr, param)
+   ax.set_xlabel('Minimum SNR')
+   ax.set_yscale('log')
+   ax.set_ylabel(name)
+   ax.set_ylim([ymin, ymax])
+   ax.set_xlim([xmin, 10])
+   ax.set_title(name + ' (2048Hz / 4096Hz) vs. Minimum SNR')
 #    fig.savefig(str(opt.output_directory)  + '/' + name + ' vs. Minimum SNR, log, scatter.png')
-    plt.close()
-    print  name + ' vs. Minimum SNR, log, scatter: '
-    print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
-    print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
+   plt.close()
+   print  name + ' vs. Minimum SNR, log, scatter: '
+   print '     Min SNR: %s' % numpy.min(min_snr), numpy.max(min_snr)
+   print '     ' + name + ': %s' % numpy.min(param), numpy.max(param)
 
 #    #scatter, linear plot vs chirp mass
    fig, ax = pylab.subplots(1, 1, figsize=[15,10])
